@@ -7,6 +7,12 @@ import time
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
+# 🔐 Password Gate using secrets
+real_password = st.secrets["auth"]["password"]
+
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
 if not st.session_state.authenticated:
     st.markdown("<h2 style='text-align:center;'>🔒 Naughty Truth or Dare</h2>", unsafe_allow_html=True)
 
@@ -14,13 +20,14 @@ if not st.session_state.authenticated:
     submitted = st.button("🔓 Unlock")
 
     if submitted:
-        if pwd == "beautifulgirl":  # Change this to your real password
+        if pwd == real_password:
             st.session_state.authenticated = True
             st.rerun()
         else:
             st.error("❌ Incorrect password. Try again.")
 
     st.stop()
+
 
 # Load CSV
 df = pd.read_csv("truth_or_dare.csv")
